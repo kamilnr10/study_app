@@ -23,15 +23,14 @@ const mockAPI = (succes) => {
   });
 };
 
-const initialFormState = {
-  name: '',
-  attendance: '',
-  average: '',
-};
+export const UsersContext = React.createContext({
+  users: [],
+  handleAddUser: () => {},
+  deleteUser: () => {},
+});
 
 const Root = () => {
   const [users, setUsers] = useState(usersData);
-  const [formValues, setFormValues] = useState(initialFormState);
   const [isLoading, setLoadingState] = useState([]);
 
   const deleteUser = (name) => {
@@ -39,16 +38,7 @@ const Root = () => {
     setUsers(filteredUsers);
   };
 
-  const handleInputChange = (e) => {
-    console.log(formValues);
-    setFormValues({
-      ...formValues,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleAddUser = (e) => {
-    e.preventDefault();
+  const handleAddUser = (formValues) => {
     const newUser = {
       name: formValues.name,
       attendance: formValues.attendance,
@@ -56,7 +46,6 @@ const Root = () => {
     };
 
     setUsers([newUser, ...users]);
-    setFormValues(initialFormState);
   };
 
   // useEffect(() => {
@@ -74,20 +63,18 @@ const Root = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <MainTemplate>
-          <Wrapper>
-            {/* <nav>
-              <Link to="/">Home</Link>
-              <Link to="/add-user">Add user</Link>
-            </nav> */}
-            <Switch>
-              <Route path="/add-user">
-                <AddUser formValues={formValues} handleAddUser={handleAddUser} handleInputChange={handleInputChange} />
-              </Route>
-              <Route path="/" exact>
-                <Dashboard deleteUser={deleteUser} users={users} />
-              </Route>
-            </Switch>
-          </Wrapper>
+          <UsersContext.Provider value={{ users, handleAddUser, deleteUser }}>
+            <Wrapper>
+              <Switch>
+                <Route path="/add-user">
+                  <AddUser />
+                </Route>
+                <Route path="/" exact>
+                  <Dashboard deleteUser={deleteUser} users={users} />
+                </Route>
+              </Switch>
+            </Wrapper>
+          </UsersContext.Provider>
         </MainTemplate>
       </ThemeProvider>
     </Router>
