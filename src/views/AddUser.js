@@ -4,7 +4,7 @@ import { Button } from 'components/atoms/Button/Button';
 import { UserShape } from 'types/types';
 import { ViewWrapper } from 'components/molecules/ViewWrapper/ViewWrapper';
 import { Title } from 'components/atoms/Title/Title';
-import { UsersContext } from 'views/Root';
+import { UsersContext } from 'providers/UsersProvider';
 
 const initialFormState = {
   name: '',

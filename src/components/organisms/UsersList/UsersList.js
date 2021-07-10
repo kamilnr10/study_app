@@ -15,7 +15,7 @@ const UsersList = ({ users, deleteUser }) => {
       <Title>Students list</Title>
       <StyledList>
         {users.map((userData) => (
-          <UsersListItem deleteUser={deleteUser} key={userData.name} userData={userData} />
+          <UsersListItem key={userData.name} userData={userData} />
         ))}
       </StyledList>
     </>

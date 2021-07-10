@@ -1,52 +1,53 @@
 import React, { useState } from 'react';
-import UsersList from 'components/organisms/UsersList/UsersList';
-import styled, { ThemeProvider } from 'styled-components';
+// import UsersList from 'components/organisms/UsersList/UsersList';
+import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from 'assets/styles/GlobalStyle';
 import { theme } from 'assets/styles/theme';
 import { Wrapper } from './Root.styles';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 // import Form from 'components/organisms/Form/Form';
-import { users as usersData } from 'data/users';
+// import { users as usersData } from 'data/users';
 import MainTemplate from 'components/templates/MainTemplate/MainTemplate';
 import Dashboard from 'views/Dashboard';
 import AddUser from 'views/AddUser';
+import UsersProvider from 'providers/UsersProvider';
 
-const mockAPI = (succes) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (usersData) {
-        resolve([...usersData]);
-      } else {
-        reject({ message: 'Error' });
-      }
-    }, 2000);
-  });
-};
+// const mockAPI = (succes) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (usersData) {
+//         resolve([...usersData]);
+//       } else {
+//         reject({ message: 'Error' });
+//       }
+//     }, 2000);
+//   });
+// };
 
-export const UsersContext = React.createContext({
-  users: [],
-  handleAddUser: () => {},
-  deleteUser: () => {},
-});
+// export const UsersContext = React.createContext({
+//   users: [],
+//   handleAddUser: () => {},
+//   deleteUser: () => {},
+// });
 
 const Root = () => {
-  const [users, setUsers] = useState(usersData);
-  const [isLoading, setLoadingState] = useState([]);
+  // const [users, setUsers] = useState(usersData);
+  // const [isLoading, setLoadingState] = useState([]);
 
-  const deleteUser = (name) => {
-    const filteredUsers = users.filter((user) => user.name !== name);
-    setUsers(filteredUsers);
-  };
+  // const deleteUser = (name) => {
+  //   const filteredUsers = users.filter((user) => user.name !== name);
+  //   setUsers(filteredUsers);
+  // };
 
-  const handleAddUser = (formValues) => {
-    const newUser = {
-      name: formValues.name,
-      attendance: formValues.attendance,
-      average: formValues.average,
-    };
+  // const handleAddUser = (formValues) => {
+  //   const newUser = {
+  //     name: formValues.name,
+  //     attendance: formValues.attendance,
+  //     average: formValues.average,
+  //   };
 
-    setUsers([newUser, ...users]);
-  };
+  //   setUsers([newUser, ...users]);
+  // };
 
   // useEffect(() => {
   //   setLoadingState(true);
@@ -63,18 +64,21 @@ const Root = () => {
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <MainTemplate>
-          <UsersContext.Provider value={{ users, handleAddUser, deleteUser }}>
+          <UsersProvider>
             <Wrapper>
               <Switch>
                 <Route path="/add-user">
                   <AddUser />
                 </Route>
                 <Route path="/" exact>
-                  <Dashboard deleteUser={deleteUser} users={users} />
+                  <Dashboard />
                 </Route>
               </Switch>
             </Wrapper>
-          </UsersContext.Provider>
+          </UsersProvider>
+          {/* <UsersContext.Provider value={{ users, handleAddUser, deleteUser }}> */}
+
+          {/* </UsersContext.Provider> */}
         </MainTemplate>
       </ThemeProvider>
     </Router>

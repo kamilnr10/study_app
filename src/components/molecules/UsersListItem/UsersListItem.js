@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DeleteButton from 'components/atoms/DeleteButton/DeleteButton';
 import { StyledAverage, StyledInfo } from './UsersListItem.styles';
 import { UserShape } from 'types/types';
+import { UsersContext } from 'providers/UsersProvider';
 
 const Wrapper = styled.li`
   display: flex;
@@ -20,7 +21,9 @@ const Wrapper = styled.li`
   }
 `;
 
-const UsersListItem = ({ deleteUser, userData: { average, name, attendance = '0%' } }) => {
+const UsersListItem = ({ userData: { average, name, attendance = '0%' } }) => {
+  const { deleteUser } = useContext(UsersContext);
+
   return (
     <Wrapper key={name}>
       <StyledAverage value={average}>{average}</StyledAverage>
